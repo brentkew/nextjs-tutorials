@@ -1,22 +1,34 @@
 import React from "react";
 import styles from "./postUser.module.css";
+import { getSingleUser } from "@/lib/data";
+import Image from "next/image";
 
-const getAuthorData = async (id) => {
-  const res = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {cache: "no-store",});
-  
-  if (!res.ok) {
-    throw new Error("Something went wrong...");
-  }
-  return res.json();
-};
+// FETCH DATA WITH API
+// const getAuthorData = async (id) => {
+//   const res = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {cache: "no-store",});
+//   if (!res.ok) {
+//     throw new Error("Something went wrong...");
+//   }
+//   return res.json();
+// };
 
 const PostUser = async ({ authorId }) => {
-  const author = await getAuthorData(authorId);
+
+  // FETCH DATA WITH API
+  // const author = await getAuthorData(authorId);
+
+  // FETCH DATA WITHOUT API
+  const author = await getSingleUser(authorId);
+
+
   return (
-    <div className={styles.container}>
-      <span className={styles.title}>Author</span>
-      <span className={styles.username}>{author.name}</span>
-    </div>
+    <>
+      <Image src={author.profileImage} className={styles.avater} alt="" width={50} height={50} />
+      <div className={styles.container}>
+        <span className={styles.title}>Author</span>
+        <span className={styles.username}>{author.name}</span>
+      </div>
+    </>
   );
 };
 

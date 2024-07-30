@@ -7,13 +7,19 @@ const PostCard = async ({post})=> {
         <div className={styles.container} >
             <div className={styles.top}>
                 <div className={styles.imgContainer}>
-                    <Image src="https://images.pexels.com/photos/24460824/pexels-photo-24460824/free-photo-of-esb-among-lower-skyscrapers.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" atl="" fill className={styles.img} />
+                    <Link className={styles.link} href={`/blog/${post.id}`}>
+                        <Image src={post.imageUrl} atl="" fill className={styles.img} />
+                    </Link>
                 </div>
                 <div className={styles.date}>1.08.2024</div>
             </div>
             <div className={styles.bottom}>
-                <h1 className={styles.title}>{post.title}</h1>
-                <p className={styles.desc}> {post.body} </p>
+                <h1 className={styles.title}>
+                    <Link className={styles.link} href={`/blog/${post.id}`}>
+                        {post.title}
+                    </Link>
+                    </h1>
+                <p className={styles.desc}> {post.data} </p>
                 <Link className={styles.link} href={`/blog/${post.id}`}>Read More</Link>
             </div>
         </div>
