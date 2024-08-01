@@ -14,6 +14,10 @@ import { getPosts } from '@/lib/utils';
 //   return res.json();
 // }
 
+export const metadata = {
+  title: "Blogs Page",
+  description: "Blogs page",
+};
 
 const BlogPage = async ({params, searchParams}) => {
 

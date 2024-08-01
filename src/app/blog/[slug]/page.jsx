@@ -14,6 +14,17 @@ import { getSinglePost } from '@/lib/utils';
 //   return res.json();
 // }
 
+export const generateMetadata = async ({params}) => {
+  const { slug } = params;
+  const post = await getSinglePost(slug);
+
+  return {
+    title: post.title,
+    description: post.data
+  }
+}
+
+
 const SingleBlogPage = async ({params}) => {
   const { slug } = params;
   
