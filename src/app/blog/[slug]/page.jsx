@@ -2,7 +2,8 @@ import React, { Suspense } from 'react'
 import styles from './singlePost.module.css'
 import Image from 'next/image'
 import PostUser from '@/components/postUser/postUser';
-import { getSinglePost } from '@/lib/data';
+import { getSinglePost } from '@/lib/utils';
+// import { getSinglePost } from '@/lib/data';
 
 // FETCH DATA WITH API
 // const getSinglePostData = async (slug)=> {
@@ -21,12 +22,12 @@ const SingleBlogPage = async ({params}) => {
 
   // FETCH DATA WITHOUT API
   const post = await getSinglePost(slug);
+
   return (
     <div className={styles.container}>
         
         <div className={styles.imgContainer}>
-          <Image src={post.imageUrl} fill alt='' className={styles.img}
-          />
+          <Image src={post.img} fill alt='' className={styles.img} />
         </div>
         
         <div className={styles.textContainer}>

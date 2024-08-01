@@ -1,7 +1,8 @@
 import React from 'react'
 import styles from './blog.module.css'
 import PostCard from '@/components/postCard/postCard'
-import { getPosts } from '@/lib/data'
+import { getPosts } from '@/lib/utils';
+// import { getPosts } from '@/lib/data'
 
 // FETCH DATA WITH API
 // const getPostData = async()=> {
@@ -21,7 +22,7 @@ const BlogPage = async ({params, searchParams}) => {
 
   // FETCH DATA WITHOUT API
   const posts = await getPosts();
-  console.log("Params", params, "Search Params", searchParams);
+  // console.log("Params", params, "Search Params", searchParams);
 
   return (
     <div className={styles.container}>

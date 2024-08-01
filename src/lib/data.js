@@ -1,10 +1,10 @@
 // Temporary Data
 const users = [
-    { id: 1, name: "Sujha Sundararajan", profileImage: "https://cimg.co/authors/775/selfie-1.jpg" },
-    { id: 2, name: "Sujha Sundararajan", profileImage: "https://cimg.co/wp-content/uploads/2024/02/26094855/Michael-Graw-150x150.jpg" },
-    { id: 3, name: "Ruholamin Haqshanas", profileImage: "https://cimg.co/authors/29219/sergio-2.jpg" },
-    { id: 4, name: "Hassan Shittu", profileImage: "https://cimg.co/authors/799/goran.jpg" },
-    { id: 5, name: "Jimmy Aki", profileImage: "https://cimg.co/authors/990/hassan-shittu.jpg" }
+    { id: 1, "username": "Sujha Sundararajan", "email": "ss@gmail.com", "password": "12345", "profileImage": "https://cimg.co/authors/775/selfie-1.jpg", "isAdmin": false },
+    { id: 2, "username": "Sujha Sundararajan", "email": "sujha@gmail.com", "password": "12345", "profileImage": "https://cimg.co/wp-content/uploads/2024/02/26094855/Michael-Graw-150x150.jpg", "isAdmin": false },
+    { id: 3, "username": "Ruholamin Haqshanas", "email": "ruholamin@gmail.com", "password": "12345", "profileImage": "https://cimg.co/authors/29219/sergio-2.jpg", "isAdmin": false },
+    { id: 4, "username": "Hassan Shittu", "email": "hassan@gmail.com", "password": "12345", "profileImage": "https://cimg.co/authors/799/goran.jpg", "isAdmin": true },
+    { id: 5, "username": "Jimmy Aki", "email": "jimmy@gmail.com", "password": "12345", "profileImage": "https://cimg.co/authors/990/hassan-shittu.jpg", "isAdmin": false }
   ];
   
 

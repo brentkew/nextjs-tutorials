@@ -1,7 +1,8 @@
 import React from "react";
 import styles from "./postUser.module.css";
-import { getSingleUser } from "@/lib/data";
+// import { getSingleUser } from "@/lib/data";
 import Image from "next/image";
+import { getSingleUser } from "@/lib/utils";
 
 // FETCH DATA WITH API
 // const getAuthorData = async (id) => {
@@ -23,10 +24,10 @@ const PostUser = async ({ authorId }) => {
 
   return (
     <>
-      <Image src={author.profileImage} className={styles.avater} alt="" width={50} height={50} />
+      <Image src={author.profileImage ? author?.profileImage : "/noavatar.png"} className={styles.avater} alt="" width={50} height={50} />
       <div className={styles.container}>
         <span className={styles.title}>Author</span>
-        <span className={styles.username}>{author.name}</span>
+        <span className={styles.username}>{author?.username}</span>
       </div>
     </>
   );

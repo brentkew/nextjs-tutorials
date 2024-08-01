@@ -6,21 +6,21 @@ const PostCard = async ({post})=> {
     return (
         <div className={styles.container} >
             <div className={styles.top}>
-                <div className={styles.imgContainer}>
-                    <Link className={styles.link} href={`/blog/${post.id}`}>
-                        <Image src={post.imageUrl} atl="" fill className={styles.img} />
+                { post.img && <div className={styles.imgContainer}>
+                    <Link className={styles.link} href={`/blog/${post.slug}`}>
+                        <Image src={post?.img} atl="" fill className={styles.img} />
                     </Link>
-                </div>
+                </div>}
                 <div className={styles.date}>1.08.2024</div>
             </div>
             <div className={styles.bottom}>
                 <h1 className={styles.title}>
-                    <Link className={styles.link} href={`/blog/${post.id}`}>
+                    <Link className={styles.link} href={`/blog/${post.slug}`}>
                         {post.title}
                     </Link>
                     </h1>
-                <p className={styles.desc}> {post.data} </p>
-                <Link className={styles.link} href={`/blog/${post.id}`}>Read More</Link>
+                <p className={styles.desc}> {post.desc} </p>
+                <Link className={styles.link} href={`/blog/${post.slug}`}>Read More</Link>
             </div>
         </div>
     )
