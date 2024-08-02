@@ -6,13 +6,14 @@ import { getSinglePost } from '@/lib/utils';
 // import { getSinglePost } from '@/lib/data';
 
 // FETCH DATA WITH API
-// const getSinglePostData = async (slug)=> {
-//   const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${slug}`);
-//   if(!res.ok) {
-//       throw new Error("Something went wrong...");
-//   }
-//   return res.json();
-// }
+const getSinglePostData = async (slug)=> {
+  const res = await fetch(`http://localhost:3000/api/blog/${slug}`);
+  if(!res.ok) {
+      throw new Error("Something went wrong...");
+  }
+  console.log("DAA", res);
+  return res.json();
+}
 
 export const generateMetadata = async ({params}) => {
   const { slug } = params;
@@ -29,10 +30,10 @@ const SingleBlogPage = async ({params}) => {
   const { slug } = params;
   
   // FETCH DATA WITH API
-  // const post = await getSinglePostData(slug);
+  const post = await getSinglePostData(slug);
 
   // FETCH DATA WITHOUT API
-  const post = await getSinglePost(slug);
+  // const post = await getSinglePost(slug);
 
   return (
     <div className={styles.container}>
