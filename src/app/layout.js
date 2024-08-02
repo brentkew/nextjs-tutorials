@@ -2,7 +2,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar/navbar";
 import Footer from "@/components/footer/footer";
-import ClientSideProviderTest from "@/components/ClientSideProviderTest";
+import SessionWrapper from "@/components/SessionWrapper";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,11 +22,11 @@ export default function RootLayout({ children }) {
 
         <div className="container">
 
-          <ClientSideProviderTest>
-            <Navbar />
+          <SessionWrapper>
+              <Navbar />
             {children}
             <Footer />
-          </ClientSideProviderTest>
+          </SessionWrapper>
         </div>
       </body>
     </html>
