@@ -10,6 +10,14 @@
     font-weight: bold;
   }
   
+  .admin {
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    color: aliceblue;
+  }
+  
+  
   .menuButton,
   .mobileLinks {
     display: none;
