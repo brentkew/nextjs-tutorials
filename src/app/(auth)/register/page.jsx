@@ -1,13 +1,15 @@
+import { registerUser } from '@/lib/actions'
 import React from 'react'
 
 const RegisterPage = () => {
   return (
     <div>
-      <form action="">
+      <form action={registerUser}>
         <input type="text" name="username" placeholder="Username" />
         <input type="email" name="email" placeholder="Email" />
         <input type="password" name="password" placeholder="Password" />
         <input type="password" name="passwordAgain" placeholder="Enter password again" />
+        {/* <input type="password" name="passwordAgain" placeholder="Enter password again" /> */}
         <button>Register</button>
       </form>
     </div>
