@@ -78,3 +78,25 @@ export const registerUser = async ( previousState,formData) => {
     return { error: "Something went wrong" }
   }
 }
+
+
+export const login = async (credentials) => {
+  try {
+    connectToDB();
+    const user = await User.findOne({email: credentials.username})
+    if(!user) {
+      return {error: "User not found"}
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
+    if(!isPasswordCorrect) {
+      return {error: "Password is not correct"}
+    }
+
+    return user;
+
+  } catch (error) {
+      console.log(error)
+      throw new Error("Failed to login")
+  }
+}

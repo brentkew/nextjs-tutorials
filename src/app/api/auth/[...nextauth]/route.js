@@ -5,27 +5,9 @@ import GithubProvider from "next-auth/providers/github"
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from 'bcryptjs';
+import { login } from "@/lib/actions";
 
-const login = async (credentials) => {
-  try {
-    connectToDB();
-    const user = await User.findOne({email: credentials.username})
-    if(!user) {
-      throw new Error("User not found")
-    }
 
-    const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
-    if(!isPasswordCorrect) {
-      throw new Error("Password is not correct")
-    }
-
-    return user;
-
-  } catch (error) {
-      console.log(error)
-      throw new Error("Failed to login")
-  }
-}
 
 
 const handler = NextAuth({
@@ -50,12 +32,8 @@ const handler = NextAuth({
       name: "Credentials",
       async authorize(credentials, req) {
         try {
-
-          console.log("credentials", credentials)
-
-          return true;
-          // const user = await login(credentials);
-          // return user;
+          const user = await login(credentials);
+          return user;
         } catch (error) {
           return null;
         }
@@ -81,6 +59,9 @@ const handler = NextAuth({
             })
             await newUser.save();
           }
+        } 
+        else if(account.provider === 'credentials') { 
+          return {error: user}
         }
       } catch (error) {
         console.log(error)
