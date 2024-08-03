@@ -77,3 +77,9 @@ export const registerUser = async (formData) => {
     throw new Error("Something went wrong...")
   }
 }
+
+export const websiteLogin = async(formData)=> {
+  const { username, password } = Object.fromEntries(formData);
+
+  return;
+}
