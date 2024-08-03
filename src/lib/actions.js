@@ -4,7 +4,8 @@ import { Post } from "@/models/Post";
 import { connectToDB } from "./utils";
 import { revalidatePath } from "next/cache";
 import { User } from "@/models/User";
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
+import { signIn } from "next-auth/react";
 
 export const sayHello = async () => {
   console.log("Server action clicked");
@@ -45,16 +46,16 @@ export const deletePost = async (formData) => {
 };
 
 
-export const registerUser = async (formData) => {
+export const registerUser = async ( previousState,formData) => {
   const {username, email, password, passwordAgain, image} = Object.fromEntries(formData);
   try {
     connectToDB();
     const userInfo = await User.findOne({email: email})
     if(userInfo) {
-      return "User already exists"
+      return {error: "User already exists"};
     }
     if(password !== passwordAgain) {
-      return "Password does not match";
+      return {error: "Password does not match"};
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -70,16 +71,10 @@ export const registerUser = async (formData) => {
     })
 
     await newUser.save();
-    return "User have be registered"
+    return { success: true }
 
   } catch (error) {
     console.log(error);
-    throw new Error("Something went wrong...")
+    return { error: "Something went wrong" }
   }
-}
-
-export const websiteLogin = async(formData)=> {
-  const { username, password } = Object.fromEntries(formData);
-
-  return;
 }

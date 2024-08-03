@@ -5,6 +5,7 @@ import styles from "./links.module.css";
 import NavLink from "../navlink/navlink";
 import Image from "next/image";
 import { useSession, signIn, signOut } from "next-auth/react";
+import Link from "next/link";
 
 const links = [
   {
@@ -38,23 +39,15 @@ const Links = () => {
           <NavLink item={link} key={link.title} />
         ))}
 
-        {session ? (
+        {session?.user ? (
           <>
-            {isAdmin && (
-              <NavLink
-                className={styles.admin}
-                item={{ item: "Admin", path: "/admin" }}
-              />
-            )}
-
+            {session.user?.isAdmin && <NavLink item={{ title: "Admin", path: "/admin" }} />}
             <button onClick={() => signOut()} className={styles.logout}>
               Logout
             </button>
           </>
         ) : (
-          <button className={styles.logout} onClick={() => signIn()}>
-            Signin
-          </button>
+          <NavLink item={{ title: "Login", path: "/login" }} />
         )}
       </div>
 

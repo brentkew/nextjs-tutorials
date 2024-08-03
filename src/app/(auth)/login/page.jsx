@@ -1,35 +1,46 @@
 "use client"
+
 import React from 'react'
 import { useSession, signIn, signOut } from "next-auth/react"
-import { websiteLogin } from '@/lib/actions'
 import styles from './login.module.css'
+import Link from 'next/link'
 
 
-const githubLogin = ()=> {
+const websiteLogin = async(formData)=> {
+  const { username, password } = Object.fromEntries(formData);
+  try {
+    const user = await signIn("credentials", { username, password })
+    console.log("user", user);
 
+  } catch (error) {
+    console.log(error);
+    return { error: "Something went wrong" }
+  }
+
+  return;
 }
 
 const LoginPage = async () => {
   const { data: session } = useSession()
   return (
-    <div>
-        
+    <div className={styles.container}>
+      <div className={styles.wrapper}>
 
-        <div className={styles.container}>
-          <div className={styles.wrapper}>
+        <button className={styles.signInGithub} onClick={() => signIn()}>
+          Login with Github
+        </button>
 
-            <button className={styles.signInGithub} onClick={() => signIn()}>
-            Login with Github
-            </button>
+        <form className={styles.form} action={websiteLogin}>
+          <input type="text" placeholder='Enter username' name="username" />
+          <input type="password" placeholder="Enter password" name="password" />
+          <button>Login with Cretentials</button>
 
-            <form className={styles.form} action={websiteLogin}>
-              <input type="text" placeholder='Enter username' name="username" />
-              <input type="password" placeholder="Enter password" name="password" />
-              <button>Login with Cretentials</button>
-            </form>
-          </div>
-        </div>
-
+          <p className={styles.footer}>
+            <br /><br />
+            {"Don't have an account "}<b><Link href="/register">Register</Link></b>
+          </p>
+        </form>
+      </div>
     </div>
   )
 }
