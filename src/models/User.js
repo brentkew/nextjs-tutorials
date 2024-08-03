@@ -16,8 +16,6 @@ const UserSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
-        max: 20
     },
     profileImage: {
         type: String,
@@ -25,7 +23,13 @@ const UserSchema = new mongoose.Schema({
     isAdmin: {
         type: Boolean,
         default: true
-    }
+    },
+    loginType: {
+        type: String,
+    },
+    provider: {
+        type: String,
+    },
 }, {timestamp: true})
 
 export const User = mongoose.models.User || mongoose.model("User", UserSchema);
