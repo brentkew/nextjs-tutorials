@@ -4,7 +4,7 @@ import { Post } from "@/models/Post";
 import { connectToDB } from "./utils";
 import { revalidatePath } from "next/cache";
 import { User } from "@/models/User";
-import { NextResponse } from "next/server";
+import bcrypt from 'bcrypt'
 
 export const sayHello = async () => {
   console.log("Server action clicked");
@@ -56,10 +56,14 @@ export const registerUser = async (formData) => {
     if(password !== passwordAgain) {
       return "Password does not match";
     }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(password, salt);
+
     const newUser = new User({
       username: username,
       email: email,
-      password: password,
+      password: hashPassword,
       profileImage: image,
       isAdmin: false,
       provider: "website"
