@@ -83,7 +83,7 @@ export const registerUser = async ( previousState,formData) => {
 export const login = async (credentials) => {
   try {
     connectToDB();
-    const user = await User.findOne({email: credentials.username})
+    const user = await User.findOne({email: credentials.email})
     if(!user) {
       return {error: "User not found"}
     }

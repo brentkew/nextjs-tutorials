@@ -12,35 +12,41 @@ import { login } from "@/lib/actions";
 
 const handler = NextAuth({
   // Configure one or more authentication providers
+  session: {
+    strategy: 'jwt'
+  },
   providers: [
-    GithubProvider({
-      clientId: process.env.AUTH_GITHUB_ID,
-      clientSecret: process.env.AUTH_GITHUB_SECRET,
-    }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      authorization: {
-        params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code"
-        }
-      }
-    }),   
+    // GithubProvider({
+    //   clientId: process.env.AUTH_GITHUB_ID,
+    //   clientSecret: process.env.AUTH_GITHUB_SECRET,
+    // }),
+    // GoogleProvider({
+    //   clientId: process.env.GOOGLE_CLIENT_ID,
+    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    //   authorization: {
+    //     params: {
+    //       prompt: "consent",
+    //       access_type: "offline",
+    //       response_type: "code"
+    //     }
+    //   }
+    // }),   
     CredentialsProvider({
-      name: "Credentials",
+        credentails: {
+        email: {},
+        password: {}
+      },
       async authorize(credentials, req) {
         try {
           // Fetch user based on the credentials provided
           const user = await login(credentials);
-          
           // If no user or an error message is present, return null
           if (!user || user.error) {
             return null;
           }
           
           return user;
+
         } catch (error) {
           console.error("Error during authorization:", error);
           return null;
@@ -68,13 +74,13 @@ const handler = NextAuth({
             await newUser.save();
           }
         } 
-        else if(account.provider === 'credentials') { 
-          if (!user) {
-            // If no user is returned, throw an error
-            throw new Error("Invalid credentials");
-          }
-          console.log("User authenticated via credentials:", user);
-        }
+        // else if(account.provider === 'credentials') { 
+        //   if (!user) {
+        //     // If no user is returned, throw an error
+        //     throw new Error("Invalid credentials");
+        //   }
+        //   console.log("User authenticated via credentials:", user);
+        // }
       } catch (error) {
         console.log(error)
         throw new Error("Something went wrong...");

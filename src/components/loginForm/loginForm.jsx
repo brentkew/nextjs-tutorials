@@ -1,23 +1,27 @@
 import { signIn } from "next-auth/react";
 import styles from "./loginForm.module.css";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormState } from 'react-dom';
+import { useRouter } from "next/navigation";
+
 
 const websiteLogin = async (previousState, formData, setError) => {
   const { username, password } = Object.fromEntries(formData);
   try {
     const result = await signIn("credentials", {
-      username,
-      password,
+      email: username,
+      password: password,
       redirect: false, // Prevent automatic redirection
     });
 
     if (result.error) {
-      setError(result.error === "CredentialsSignin" ? "Invalid credentials" : "An unexpected error occurred.");
+      setError(result.error === "CredentialsSignin" ? "Invalid credentials" : "");
     } else {
-      setError(null);
+      setError("ReDirect");
     }
+
+
   } catch (error) {
     setError("An unexpected error occurred.");
   }
@@ -29,6 +33,12 @@ const LoginForm = () => {
     async (previousState, formData) => await websiteLogin(previousState, formData, setError),
     undefined
   );
+
+
+  const router = useRouter();
+  useEffect( ()=> {
+    error && error == 'ReDirect' && router.push("/");
+  }, [error, router])
 
   return (
     <form className={styles.form} action={formAction}>
