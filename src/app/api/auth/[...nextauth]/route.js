@@ -32,9 +32,17 @@ const handler = NextAuth({
       name: "Credentials",
       async authorize(credentials, req) {
         try {
+          // Fetch user based on the credentials provided
           const user = await login(credentials);
+          
+          // If no user or an error message is present, return null
+          if (!user || user.error) {
+            return null;
+          }
+          
           return user;
         } catch (error) {
+          console.error("Error during authorization:", error);
           return null;
         }
       }
@@ -61,7 +69,11 @@ const handler = NextAuth({
           }
         } 
         else if(account.provider === 'credentials') { 
-          return {error: user}
+          if (!user) {
+            // If no user is returned, throw an error
+            throw new Error("Invalid credentials");
+          }
+          console.log("User authenticated via credentials:", user);
         }
       } catch (error) {
         console.log(error)
