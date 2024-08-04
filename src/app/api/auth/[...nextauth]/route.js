@@ -3,6 +3,12 @@ import { User } from "@/models/User";
 import NextAuth from "next-auth"
 import GithubProvider from "next-auth/providers/github"
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from 'bcryptjs';
+import { login } from "@/lib/actions";
+
+
+
 
 const handler = NextAuth({
   // Configure one or more authentication providers
@@ -21,7 +27,26 @@ const handler = NextAuth({
           response_type: "code"
         }
       }
-    }),    
+    }),   
+    CredentialsProvider({
+      name: "Credentials",
+      async authorize(credentials, req) {
+        try {
+          // Fetch user based on the credentials provided
+          const user = await login(credentials);
+          
+          // If no user or an error message is present, return null
+          if (!user || user.error) {
+            return null;
+          }
+          
+          return user;
+        } catch (error) {
+          console.error("Error during authorization:", error);
+          return null;
+        }
+      }
+    }) 
     // ...add more providers here
   ],
   callbacks: {
@@ -42,6 +67,13 @@ const handler = NextAuth({
             })
             await newUser.save();
           }
+        } 
+        else if(account.provider === 'credentials') { 
+          if (!user) {
+            // If no user is returned, throw an error
+            throw new Error("Invalid credentials");
+          }
+          console.log("User authenticated via credentials:", user);
         }
       } catch (error) {
         console.log(error)
