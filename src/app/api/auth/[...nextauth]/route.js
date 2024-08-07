@@ -6,31 +6,33 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from 'bcryptjs';
 import { login } from "@/lib/actions";
+import { authConfig } from "@/lib/auth.Config";
 
 
 
 
 const handler = NextAuth({
   // Configure one or more authentication providers
+  ...authConfig,
   session: {
     strategy: 'jwt'
   },
   providers: [
-    // GithubProvider({
-    //   clientId: process.env.AUTH_GITHUB_ID,
-    //   clientSecret: process.env.AUTH_GITHUB_SECRET,
-    // }),
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    //   authorization: {
-    //     params: {
-    //       prompt: "consent",
-    //       access_type: "offline",
-    //       response_type: "code"
-    //     }
-    //   }
-    // }),   
+    GithubProvider({
+      clientId: process.env.AUTH_GITHUB_ID,
+      clientSecret: process.env.AUTH_GITHUB_SECRET,
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code"
+        }
+      }
+    }),   
     CredentialsProvider({
         credentails: {
         email: {},
@@ -74,20 +76,38 @@ const handler = NextAuth({
             await newUser.save();
           }
         } 
-        // else if(account.provider === 'credentials') { 
-        //   if (!user) {
-        //     // If no user is returned, throw an error
-        //     throw new Error("Invalid credentials");
-        //   }
-        //   console.log("User authenticated via credentials:", user);
-        // }
+        else if(account.provider === 'credentials') { 
+          if (!user) {
+            // If no user is returned, throw an error
+            throw new Error("Invalid credentials");
+          }
+          console.log("User authenticated via credentials:", user);
+        }
       } catch (error) {
         console.log(error)
         throw new Error("Something went wrong...");
       }
       return true;
+    },
+    async session({session, token}) {
+      if(token) {
+        session.user.isAdmin = token.isAdmin;
+        session.user.name = token.name;
+        session.user.image = token.image;
+      }
+      return session;
+    },
+    async jwt({token, user}) {
+      if(user) {
+        token.id = user.id;
+        token.isAdmin = user.isAdmin;
+        token.image = user.profileImage;
+        token.name = user.username;
+      }
+      return token;
     }
-  }
+  },
+  ...authConfig.callbacks,
 })
 
 
